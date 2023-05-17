@@ -1,0 +1,164 @@
+							Football Team
+
+
+Main:
+
+using System;
+using footballTeam.Functionality;
+using footballTeam.Models;
+using footballTeam.Service;
+
+
+namespace footballTeam.UI
+{
+    public class mainData
+    {
+        public static void Main()
+        {
+            Console.WriteLine("INDIAN FOOTBALL TEAM");
+            teamMember obj = new teamMember();
+            obj.playerName = "Sunil Chhetri";
+            obj.playerRole = "Striker";
+            obj.playerAge = 37;
+
+            teamInterface ti = new teamData();
+            ti.createPlayerData(obj);
+
+            teamMember obj1 = new teamMember();
+            obj1.playerName = "Gurpreet Singh Sandhu";
+            obj1.playerRole = "GoalKeeper";
+            obj1.playerAge = 30;
+
+            ti.createPlayerData(obj1);
+            List<teamMember> teamList = ti.getMemberList();
+            Console.WriteLine(" Team Player's Data");
+
+            foreach (teamMember tm in teamList)
+            {
+                Console.WriteLine(" Name: " + tm.playerName + ", Age: " + tm.playerAge + ", Role: " + tm.playerRole);
+            }
+            Console.WriteLine("Press\n 1 for to enter player's data in the list \n 2 for to remove player's data from the list\n 3 for to search a player in the list \n 4 to count total number of players in the list. \n 5 to exit");
+            int n = Convert.ToInt32(Console.ReadLine());
+
+            ti.switchfunc(n);
+
+            
+            Console.WriteLine(" Team Player's Data");
+
+            foreach(teamMember tm in teamList)
+            {
+                Console.WriteLine(" Name: " + tm.playerName + ", Age: " + tm.playerAge + ", Role: " + tm.playerRole);
+            }
+        }
+    }
+}
+
+.....................................................
+
+Service:
+
+using System;
+using footballTeam.Models;
+using footballTeam.Functionality;
+using footballTeam.Service;
+
+namespace footballTeam.Service
+{
+    public class teamData:teamInterface
+    {
+        List<teamMember> memberList = new List<teamMember> ();
+
+        public void switchfunc(int x)
+        {
+            switch(x)
+            {
+                case 1:
+                    {
+                        addData();
+                    }break;
+                case 2:
+                    {
+                        removeData();
+                    }
+                    break;
+            }
+        }
+
+        public void addData()
+        {
+            teamMember obj2 = new teamMember();
+            Console.WriteLine("Enter Name of the Player:");
+            obj2.playerName = Console.ReadLine();
+            Console.WriteLine("Enter Role of the Player:");
+            obj2.playerRole = Console.ReadLine();
+            Console.WriteLine("Enter Age of the Player:");
+            obj2.playerAge = Convert.ToInt32(Console.ReadLine());
+
+            createPlayerData(obj2);
+        }
+        public void createPlayerData(teamMember tm)
+        {
+            memberList.Add(tm);
+        }
+
+        public List<teamMember> getMemberList()
+        {
+            return memberList;
+        }
+        public void removeData()
+        {
+            List<teamMember> pList = memberList;
+            foreach (var item in pList)
+            {
+                Console.WriteLine(item.playerName + " " + item.playerRole + " " + item.playerAge);
+            }
+            pList.RemoveAt(1);
+            Console.WriteLine("Updated List:");
+            foreach (var item in pList)
+            {
+                Console.WriteLine(item.playerName + " " + item.playerRole + " " + item.playerAge);
+            }
+
+        }
+    }
+}
+
+......................................................
+
+Models:
+
+using System;
+
+
+namespace footballTeam.Models
+{
+    public class teamMember
+    {
+        public string? playerName { get; set; }
+        public string? playerRole { get; set; }
+        public int playerAge { get; set; }
+
+    }
+}
+.......................................................
+
+Interface:
+
+using System;
+using footballTeam.Models;
+using footballTeam.Service;
+using footballTeam.UI;
+
+
+
+namespace footballTeam.Functionality
+{
+    public interface teamInterface
+    {
+        void createPlayerData(teamMember tm);
+        List<teamMember> getMemberList();
+
+        void switchfunc(int x);
+    }
+}
+...........................................................

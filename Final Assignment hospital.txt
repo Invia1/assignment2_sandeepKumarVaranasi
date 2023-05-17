@@ -1,0 +1,179 @@
+			HOSPITAL MANAGEMENT SYSTEM
+
+Main:
+
+using System;
+using HospitalManagementSystem.Service;
+using HospitalManagementSystem.Models;
+using HospitalManagementSystem.Functionality;
+
+namespace HospitalManagementSystem.Main
+{
+    public class patientMainData
+    {
+        public static void Main()
+        {
+            Console.WriteLine(" Welcome to the RIM Hospital!!!"); 
+            Console.WriteLine(" Please select your 'Speciality to be Consulted'");
+            Console.WriteLine(" Press 1 for General Medicine");
+            Console.WriteLine(" Press 2 for Orthopaedics");
+            Console.WriteLine(" Press 3 Dental");
+            Console.WriteLine(" Press 4 to exit");
+            int n = Convert.ToInt32(Console.ReadLine());
+
+            hospitalInterface HI = new patientServiceData();
+
+            switch (n)
+            {
+                case 1:
+                    {
+                        Console.WriteLine(" You select General Medicine");
+                        HI.addPatientData();
+                        HI.addDataToList();
+                    }
+                    break;
+               case 2:
+                    {
+                        Console.WriteLine(" You select Orthopaedics");
+                        HI.addPatientData();
+                        HI.addDataToList();
+                    }
+                    break;
+               case 3:
+                    {
+                        Console.WriteLine(" You select Dental");
+                        HI.addPatientData();
+                        HI.addDataToList();
+                    }
+                    break;
+               case 4:
+                    {
+                        Console.WriteLine(" Thank You for visiting our website, Have a Good Day!!");
+                        Environment.Exit(0);
+                    }break;
+            }
+
+
+
+        }
+    }
+}
+
+................................................................
+
+Service:
+
+using System;
+using HospitalManagementSystem.Main;
+using HospitalManagementSystem.Models;
+using HospitalManagementSystem.Functionality;
+
+namespace HospitalManagementSystem.Service
+{
+    public class patientServiceData : hospitalInterface
+    {
+        List<patientData> patientDataList = new List<patientData>();
+
+        List<patientData> finalPatientDataList = new List<patientData>();
+
+        public void addPatientData()
+        {
+            
+            patientData obj = new patientData();
+            obj.Id++;
+
+            Console.Write(" Enter patient fisrt name: ");
+            obj.firstName = Console.ReadLine();
+            Console.Write(" Enter patient last name: ");
+            obj.lastName = Console.ReadLine();
+            Console.Write(" Enter patient phone number: ");
+            obj.phoneNumber = Convert.ToInt32(Console.ReadLine());
+            Console.Write(" Enter patient gender(M/F): ");
+            obj.gender = Console.ReadLine();
+            if(obj.gender!= "M" || obj.gender != "F")
+            {
+                Console.WriteLine(" Please enter correct gender(M/F)");
+                obj.gender = Console.ReadLine();
+                //continue;
+            }
+            Console.Write(" Enter patient age: ");
+            obj.age = Convert.ToInt32(Console.ReadLine());
+            if(obj.age < 0 || obj.age>100)
+            {
+                Console.WriteLine("Please enter correct age.");
+                obj.age = Convert.ToInt32(Console.ReadLine());
+                //continue;
+                
+            }
+            
+            Console.WriteLine(" Enter Patient Address: ");
+            obj.address = Console.ReadLine();
+            Console.WriteLine(" Enter Patient Aadhar number:");
+            obj.aadharNumber = Convert.ToInt32(Console.ReadLine());
+            string str = Convert.ToString(obj.aadharNumber);
+            if(str.Length!=10)
+            {
+                Console.WriteLine(" Please Enter correct Aadhar number(10 Digits):");
+                obj.aadharNumber = Convert.ToInt32(Console.ReadLine());
+                //continue;
+            }
+            patientDataList.Add(obj);
+
+        }
+
+        public void addDataToList()
+        {
+            finalPatientDataList = patientDataList;
+            foreach(var p  in finalPatientDataList)
+            {
+                Console.WriteLine("Patient ID:"+p.Id+" First Name: "+p.firstName+", Last Name"+p.lastName+", Phone Number: "+p.phoneNumber+", Gender: "+p.gender+", Age: "+p.age+", Address: "+p.address+", Aadhar Number: "+p.aadharNumber);
+            }
+        }
+    }
+}
+................................................................
+
+Model:
+
+using System;
+
+namespace HospitalManagementSystem.Models
+{
+    public class patientData
+    {
+        public int Id { get; set; }
+        public string? firstName { get; set; }
+        public string? lastName { get; set; }
+        public int phoneNumber { get; set; }
+        public string? gender { get; set; }
+        public int age { get; set; }
+        public string? address { get; set; }
+        public int aadharNumber { get; set; }
+
+    }
+}
+
+.......................................................
+Interface:
+
+using System;
+using HospitalManagementSystem.Main;
+using HospitalManagementSystem.Models;
+using HospitalManagementSystem.Service;
+
+namespace HospitalManagementSystem.Functionality
+{
+    public interface hospitalInterface
+    {
+        void addPatientData();
+        void addDataToList();
+    }
+}
+
+...................................................
+
+
+
+
+
+
